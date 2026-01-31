@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cinzel_Decorative, Cinzel, Playfair_Display } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 // For "Agent Cathedral" title only
@@ -45,6 +46,7 @@ export default function RootLayout({
         className={`${cinzelDecorative.variable} ${cinzel.variable} ${playfair.variable} antialiased bg-background text-foreground`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );

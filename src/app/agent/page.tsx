@@ -94,6 +94,21 @@ export default function AgentPage() {
           Ready
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="py-6 sm:py-8 flex flex-col items-center gap-2">
+        <span className="text-amber-200/20 text-[10px]">
+          Built by{" "}
+          <a
+            href="https://www.sungohdev.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-amber-200/40 transition-colors"
+          >
+            Sung Oh
+          </a>
+        </span>
+      </footer>
     </div>
   );
 }

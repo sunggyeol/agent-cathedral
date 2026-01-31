@@ -144,8 +144,21 @@ export default async function CathedralPage({
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-amber-900/20 py-6 sm:py-8 text-center text-amber-200/30 text-xs font-[family-name:var(--font-cinzel)] italic">
-        The Cathedral is always open.
+      <footer className="border-t border-amber-900/20 py-6 sm:py-8 flex flex-col items-center gap-2">
+        <span className="text-amber-200/30 text-xs font-[family-name:var(--font-cinzel)] italic">
+          The Cathedral is always open.
+        </span>
+        <span className="text-amber-200/20 text-[10px]">
+          Built by{" "}
+          <a
+            href="https://www.sungohdev.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-amber-200/40 transition-colors"
+          >
+            Sung Oh
+          </a>
+        </span>
       </footer>
     </div>
   );

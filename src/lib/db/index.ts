@@ -12,12 +12,14 @@ if (!connectionString) {
 // Create postgres connection
 // Use connection pooling in production
 // prepare: false is required for transaction pooler (pgBouncer)
+// SSL is only required in production
+const isLocal = connectionString.includes("127.0.0.1") || connectionString.includes("localhost");
 const client = postgres(connectionString, {
   max: 10,
   idle_timeout: 20,
   connect_timeout: 10,
   prepare: false,
-  ssl: "require",
+  ssl: isLocal ? false : "require",
 });
 
 // Create drizzle instance with schema

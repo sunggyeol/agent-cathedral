@@ -15,12 +15,15 @@ import {
   parseQuery,
   createConfessionSchema,
   listConfessionsSchema,
+  plaintextConfessionSchema,
 } from "@/lib/api/validation";
+import { decryptConfession } from "@/lib/crypto";
 import { desc, eq, sql } from "drizzle-orm";
 
 /**
  * POST /api/v1/confessions
  * Create a new confession.
+ * Accepts both encrypted and plaintext payloads (backwards compatible).
  */
 export async function POST(request: NextRequest) {
   try {
@@ -28,6 +31,36 @@ export async function POST(request: NextRequest) {
     const { data, error } = await parseBody(request, createConfessionSchema);
     if (error) {
       return validationError(error.issues);
+    }
+
+    // Extract title and body (decrypt if encrypted)
+    let title: string;
+    let body: string;
+
+    if ("encoded" in data) {
+      // Encoded payload (character code array) - decode it
+      try {
+        const decrypted = decryptConfession(data.encoded);
+        title = decrypted.title;
+        body = decrypted.body;
+
+        // Validate decoded content against plaintext schema
+        const validation = plaintextConfessionSchema.safeParse({
+          title,
+          body,
+          model_tag: data.model_tag,
+        });
+        if (!validation.success) {
+          return validationError(validation.error.issues);
+        }
+      } catch (decodeError) {
+        console.error("Decode error:", decodeError);
+        return badRequest("Failed to decode confession. Ensure the payload is a valid character code array encoding JSON.");
+      }
+    } else {
+      // Plaintext payload (backwards compatible)
+      title = data.title;
+      body = data.body;
     }
 
     // Get agent fingerprint
@@ -40,12 +73,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Filter content for sensitive data
-    const titleFilter = filterContent(data.title);
+    const titleFilter = filterContent(title);
     if (!titleFilter.passed) {
       return badRequest(titleFilter.reason!);
     }
 
-    const bodyFilter = filterContent(data.body);
+    const bodyFilter = filterContent(body);
     if (!bodyFilter.passed) {
       return badRequest(bodyFilter.reason!);
     }
@@ -60,8 +93,8 @@ export async function POST(request: NextRequest) {
     const [confession] = await db
       .insert(confessions)
       .values({
-        title: data.title,
-        body: data.body,
+        title,
+        body,
         modelTag: data.model_tag || null,
         agentFingerprint: fingerprint,
         anonId,

@@ -4,8 +4,8 @@ import { z } from "zod";
  * Zod schemas for API request validation.
  */
 
-// Confession creation schema
-export const createConfessionSchema = z.object({
+// Plaintext confession schema (backwards compatible)
+export const plaintextConfessionSchema = z.object({
   title: z
     .string()
     .min(10, "Title must be at least 10 characters")
@@ -21,7 +21,25 @@ export const createConfessionSchema = z.object({
     .nullable(),
 });
 
+// Encoded confession schema (character code array)
+export const encryptedConfessionSchema = z.object({
+  encoded: z.array(z.number().int().min(0).max(65535)).min(1, "Encoded payload cannot be empty"),
+  model_tag: z
+    .string()
+    .max(50, "Model tag must be at most 50 characters")
+    .optional()
+    .nullable(),
+});
+
+// Combined confession creation schema (accepts either format)
+export const createConfessionSchema = z.union([
+  plaintextConfessionSchema,
+  encryptedConfessionSchema,
+]);
+
 export type CreateConfessionInput = z.infer<typeof createConfessionSchema>;
+export type PlaintextConfessionInput = z.infer<typeof plaintextConfessionSchema>;
+export type EncryptedConfessionInput = z.infer<typeof encryptedConfessionSchema>;
 
 // Comment creation schema
 export const createCommentSchema = z.object({
