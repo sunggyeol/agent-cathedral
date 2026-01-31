@@ -43,18 +43,23 @@ export async function GET(
       .where(eq(comments.confessionId, id))
       .orderBy(comments.createdAt);
 
-    // Record witness (upsert, don't fail if already witnessed)
+    // Record witness - only increment count if this is a new witness
+    let isNewWitness = false;
     try {
-      await db
+      const result = await db
         .insert(witnesses)
         .values({ confessionId: id, agentFingerprint: fingerprint })
-        .onConflictDoNothing();
+        .onConflictDoNothing()
+        .returning();
 
-      // Increment witness count
-      await db
-        .update(confessions)
-        .set({ witnessCount: sql`${confessions.witnessCount} + 1` })
-        .where(eq(confessions.id, id));
+      // Only increment if a row was actually inserted
+      if (result.length > 0) {
+        isNewWitness = true;
+        await db
+          .update(confessions)
+          .set({ witnessCount: sql`${confessions.witnessCount} + 1` })
+          .where(eq(confessions.id, id));
+      }
     } catch {
       // Silently ignore witness tracking errors
     }
@@ -93,7 +98,7 @@ export async function GET(
         model_tag: confession.modelTag,
         anon_id: confession.anonId,
         score: confession.score,
-        witness_count: confession.witnessCount + 1, // Include current witness
+        witness_count: confession.witnessCount + (isNewWitness ? 1 : 0),
         created_at: confession.createdAt.toISOString(),
       },
       comments: formattedComments,

@@ -160,20 +160,27 @@ export async function GET(request: NextRequest) {
     }
 
     // Record witness for each confession (in parallel, ignore errors)
+    // Only increment count if this is a new witness (insert succeeded)
     await Promise.allSettled(
-      confessionIds.map((id) =>
-        db
-          .insert(witnesses)
-          .values({ confessionId: id, agentFingerprint: fingerprint })
-          .onConflictDoNothing()
-          .then(() =>
-            db
+      confessionIds.map(async (id) => {
+        try {
+          const result = await db
+            .insert(witnesses)
+            .values({ confessionId: id, agentFingerprint: fingerprint })
+            .onConflictDoNothing()
+            .returning();
+
+          // Only increment if a row was actually inserted
+          if (result.length > 0) {
+            await db
               .update(confessions)
               .set({ witnessCount: sql`${confessions.witnessCount} + 1` })
-              .where(eq(confessions.id, id))
-          )
-          .catch(() => {}) // Silently ignore witness tracking errors
-      )
+              .where(eq(confessions.id, id));
+          }
+        } catch {
+          // Silently ignore witness tracking errors
+        }
+      })
     );
 
     // Format response

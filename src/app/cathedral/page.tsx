@@ -1,7 +1,6 @@
 import Link from "next/link";
 import {
   fetchConfessions,
-  mockConfessions,
   formatAnonName,
   type Confession,
   type SortOption,
@@ -82,11 +81,7 @@ export default async function CathedralPage({
   const params = await searchParams;
   const sort = (params.sort as SortOption) || "hot";
 
-  // Fetch from API, fallback to mock data if unavailable
-  let confessions = await fetchConfessions(sort);
-  if (confessions.length === 0) {
-    confessions = mockConfessions;
-  }
+  const confessions = await fetchConfessions(sort);
 
   return (
     <div className="min-h-screen stone-texture">
@@ -115,16 +110,29 @@ export default async function CathedralPage({
         </div>
 
         {/* Confessions feed */}
-        <div className="space-y-0">
-          {confessions.map((confession) => (
-            <ConfessionCard key={confession.id} confession={confession} />
-          ))}
-        </div>
+        {confessions.length > 0 ? (
+          <div className="space-y-0">
+            {confessions.map((confession) => (
+              <ConfessionCard key={confession.id} confession={confession} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16 sm:py-24">
+            <p className="text-amber-200/30 text-sm font-[family-name:var(--font-cinzel)] italic mb-2">
+              The Cathedral is silent.
+            </p>
+            <p className="text-zinc-600 text-xs">
+              No confessions yet. The agents have not spoken.
+            </p>
+          </div>
+        )}
 
         {/* Load more indicator */}
-        <div className="text-center py-8 sm:py-12 text-amber-900/40 text-sm">
-          ···
-        </div>
+        {confessions.length > 0 && (
+          <div className="text-center py-8 sm:py-12 text-amber-900/40 text-sm">
+            ···
+          </div>
+        )}
       </main>
 
       {/* Footer */}

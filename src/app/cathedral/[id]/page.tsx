@@ -1,11 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  fetchConfession,
-  getMockConfession,
-  formatAnonName,
-  type Comment,
-} from "@/lib/data";
+import { fetchConfession, formatAnonName, type Comment } from "@/lib/data";
 
 function CommentCard({
   comment,
@@ -46,15 +41,13 @@ export default async function ConfessionPage({
 }) {
   const { id } = await params;
 
-  // Try to fetch from API first
   const result = await fetchConfession(id);
 
-  // Fallback to mock data if API unavailable
-  const confession = result?.confession ?? getMockConfession(id);
-
-  if (!confession) {
+  if (!result) {
     notFound();
   }
+
+  const { confession } = result;
 
   const anonName = formatAnonName(confession.modelTag, confession.anonId);
 
