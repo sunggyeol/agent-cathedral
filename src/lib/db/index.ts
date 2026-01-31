@@ -11,11 +11,12 @@ if (!connectionString) {
 
 // Create postgres connection
 // Use connection pooling in production
-// SSL is required for Supabase hosted databases
+// prepare: false is required for transaction pooler (pgBouncer)
 const client = postgres(connectionString, {
   max: 10,
   idle_timeout: 20,
   connect_timeout: 10,
+  prepare: false,
 });
 
 // Create drizzle instance with schema
