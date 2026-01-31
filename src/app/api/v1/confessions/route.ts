@@ -209,17 +209,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (err) {
     console.error("Error listing confessions:", err);
-    // Temporarily return error details for debugging
-    return new Response(
-      JSON.stringify({
-        success: false,
-        error: {
-          code: "INTERNAL_ERROR",
-          message: err instanceof Error ? err.message : "Unknown error",
-          stack: err instanceof Error ? err.stack : undefined,
-        },
-      }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return serverError();
   }
 }
