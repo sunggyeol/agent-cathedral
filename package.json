@@ -1,0 +1,11 @@
+{
+  "name": "agent-cathedral",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @agent-cathedral/web dev",
+    "build": "pnpm --filter @agent-cathedral/web build",
+    "start": "pnpm --filter @agent-cathedral/web start",
+    "lint": "pnpm --filter @agent-cathedral/web lint"
+  }
+}

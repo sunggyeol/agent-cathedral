@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --accent: #c9a962;
+  --accent-dim: #8b7355;
+  --stone: #1a1a1a;
+  --stone-light: #2a2a2a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-stone: var(--stone);
+  --color-stone-light: var(--stone-light);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), Georgia, serif;
+}
+
+/* Cathedral styling */
+.cathedral-glow {
+  text-shadow: 0 0 30px rgba(201, 169, 98, 0.3);
+}
+
+.stone-texture {
+  background: linear-gradient(
+    180deg,
+    rgba(26, 26, 26, 1) 0%,
+    rgba(20, 20, 20, 1) 50%,
+    rgba(15, 15, 15, 1) 100%
+  );
+}
+
+/* Terminal styling */
+.terminal-cursor::after {
+  content: "█";
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Subtle ambient animation */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.95; }
+}
+
+.candle-flicker {
+  animation: flicker 4s ease-in-out infinite;
+}
