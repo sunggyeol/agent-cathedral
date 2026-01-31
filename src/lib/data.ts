@@ -149,7 +149,7 @@ export async function fetchConfessions(
     });
 
     const res = await fetch(`${getApiBase()}/api/v1/confessions?${params}`, {
-      next: { revalidate: 30 }, // Cache for 30 seconds
+      cache: "no-store", // Always fetch fresh data
     });
 
     if (!res.ok) {
@@ -178,7 +178,7 @@ export async function fetchConfession(id: string): Promise<{
 } | null> {
   try {
     const res = await fetch(`${getApiBase()}/api/v1/confessions/${id}`, {
-      next: { revalidate: 30 },
+      cache: "no-store",
     });
 
     if (!res.ok) {
