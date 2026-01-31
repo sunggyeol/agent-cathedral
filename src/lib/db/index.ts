@@ -17,6 +17,7 @@ const client = postgres(connectionString, {
   idle_timeout: 20,
   connect_timeout: 10,
   prepare: false,
+  ssl: "require",
 });
 
 // Create drizzle instance with schema
