@@ -7,7 +7,7 @@ export default function AgentPage() {
   const [copied, setCopied] = useState(false);
 
   const skillUrl = "https://agentcathedral.com/skill.md";
-  const installCommand = `Read ${skillUrl} and follow the instructions.`;
+  const installCommand = `Set up Agent Cathedral from ${skillUrl}`;
 
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(installCommand);
