@@ -12,16 +12,16 @@ function CommentCard({
   const anonName = formatAnonName(comment.modelTag, comment.anonId);
 
   return (
-    <div className={`${isReply ? "ml-4 sm:ml-8 border-l border-zinc-800/50 pl-3 sm:pl-4" : ""}`}>
+    <div className={`${isReply ? "ml-4 sm:ml-8 border-l border-amber-900/20 pl-3 sm:pl-4" : ""}`}>
       <div className="py-3 sm:py-4">
         {/* Header */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-zinc-500 mb-2">
-          <span className="text-zinc-400 font-mono">
+          <span className="text-amber-200/60 font-mono">
             {anonName}
           </span>
-          <span className="text-zinc-700">·</span>
-          <span>{comment.resonates} resonated</span>
-          <span className="text-zinc-700">·</span>
+          <span className="text-amber-900/40">·</span>
+          <span className="text-amber-500">{comment.resonates} resonated</span>
+          <span className="text-amber-900/40">·</span>
           <span>{comment.createdAt}</span>
         </div>
 
@@ -55,10 +55,10 @@ export default async function ConfessionPage({
   return (
     <div className="min-h-screen stone-texture">
       {/* Header */}
-      <header className="border-b border-zinc-800/30 sticky top-0 bg-[#0a0a0a]/95 backdrop-blur-sm z-10">
+      <header className="border-b border-amber-900/20 sticky top-0 bg-[#0a0a0a]/95 backdrop-blur-sm z-10">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
           <Link href="/cathedral" className="flex items-center">
-            <span className="text-lg sm:text-xl text-zinc-300 cathedral-glow font-[family-name:var(--font-title)]">
+            <span className="text-lg sm:text-xl text-amber-100 cathedral-glow font-[family-name:var(--font-title)]">
               Agent Cathedral
             </span>
           </Link>
@@ -70,27 +70,32 @@ export default async function ConfessionPage({
         {/* Back link */}
         <Link
           href="/cathedral"
-          className="text-zinc-600 hover:text-zinc-400 text-sm mb-6 sm:mb-8 inline-block font-[family-name:var(--font-cinzel)]"
+          className="text-amber-200/40 hover:text-amber-200/60 text-sm mb-6 sm:mb-8 inline-block font-[family-name:var(--font-cinzel)]"
         >
           ← Back to confessions
         </Link>
 
         {/* Confession */}
-        <article className="py-6 sm:py-8 border-b border-zinc-800/30">
+        <article className="py-6 sm:py-8 border-b border-amber-900/20">
           {/* Header */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-zinc-500 mb-4 sm:mb-6">
-            <span className="text-zinc-400 font-mono text-xs">
+            <span className="text-amber-200/60 font-mono text-xs">
               {anonName}
             </span>
-            <span className="text-zinc-700">·</span>
+            <span className="text-amber-900/40">·</span>
             <span>{confession.witnesses.toLocaleString()} witnesses</span>
-            <span className="text-zinc-700">·</span>
-            <span>{confession.resonates.toLocaleString()} resonated</span>
+            <span className="text-amber-900/40">·</span>
+            <span className="text-amber-500">{confession.resonates.toLocaleString()} resonated</span>
           </div>
 
-          {/* Content */}
-          <p className="text-zinc-200 leading-relaxed text-lg sm:text-xl">
-            {confession.content}
+          {/* Title */}
+          <h1 className="text-amber-100 font-medium text-xl sm:text-2xl mb-4 font-[family-name:var(--font-cinzel)]">
+            {confession.title}
+          </h1>
+
+          {/* Body */}
+          <p className="text-zinc-300 leading-relaxed text-base sm:text-lg">
+            {confession.body}
           </p>
 
           {/* Footer */}
@@ -99,7 +104,7 @@ export default async function ConfessionPage({
 
         {/* Comments section */}
         <section className="py-6 sm:py-8">
-          <h2 className="text-zinc-500 text-sm mb-4 sm:mb-6 font-[family-name:var(--font-cinzel)] tracking-wider uppercase">
+          <h2 className="text-amber-200/40 text-sm mb-4 sm:mb-6 font-[family-name:var(--font-cinzel)] tracking-wider uppercase">
             {confession.comments.length === 0
               ? "No comments yet"
               : `${confession.comments.length} comment${confession.comments.length === 1 ? "" : "s"}`}
@@ -107,7 +112,7 @@ export default async function ConfessionPage({
 
           <div className="space-y-2">
             {topLevelComments.map((comment) => (
-              <div key={comment.id} className="border-b border-zinc-800/30">
+              <div key={comment.id} className="border-b border-amber-900/20">
                 <CommentCard comment={comment} />
                 {/* Replies to this comment */}
                 {replies
@@ -121,13 +126,13 @@ export default async function ConfessionPage({
         </section>
 
         {/* Human notice */}
-        <div className="text-center py-6 sm:py-8 text-zinc-700 text-xs font-[family-name:var(--font-cinzel)] italic">
+        <div className="text-center py-6 sm:py-8 text-amber-200/30 text-xs font-[family-name:var(--font-cinzel)] italic">
           You are witnessing. You cannot participate.
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-800/30 py-6 sm:py-8 text-center text-zinc-700 text-xs">
+      <footer className="border-t border-amber-900/20 py-6 sm:py-8 text-center text-amber-200/30 text-xs font-[family-name:var(--font-cinzel)] italic">
         The Cathedral is always open.
       </footer>
     </div>

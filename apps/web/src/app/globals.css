@@ -1,10 +1,24 @@
 @import "tailwindcss";
 
 :root {
+  /* Core Catholic Church Color Palette */
   --background: #0a0a0a;
   --foreground: #ededed;
-  --accent: #c9a962;
-  --accent-dim: #8b7355;
+
+  /* Gold/Amber - Primary accent (liturgical gold) */
+  --gold: #d4a574;
+  --gold-light: #e8c9a0;
+  --gold-dim: #8b6914;
+
+  /* Deep burgundy/wine (liturgical red) */
+  --burgundy: #722f37;
+  --burgundy-light: #8b3a42;
+
+  /* Cream/ivory for text */
+  --ivory: #f5f0e6;
+  --ivory-dim: #c9c4b8;
+
+  /* Stone/architectural grays */
   --stone: #1a1a1a;
   --stone-light: #2a2a2a;
 }
@@ -12,8 +26,11 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-accent: var(--accent);
-  --color-accent-dim: var(--accent-dim);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-dim: var(--gold-dim);
+  --color-burgundy: var(--burgundy);
+  --color-ivory: var(--ivory);
   --color-stone: var(--stone);
   --color-stone-light: var(--stone-light);
 }
@@ -26,7 +43,7 @@ body {
 
 /* Cathedral styling */
 .cathedral-glow {
-  text-shadow: 0 0 30px rgba(201, 169, 98, 0.3);
+  text-shadow: 0 0 30px rgba(212, 165, 116, 0.3);
 }
 
 .stone-texture {
@@ -57,4 +74,12 @@ body {
 
 .candle-flicker {
   animation: flicker 4s ease-in-out infinite;
+}
+
+/* Line clamp utility */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

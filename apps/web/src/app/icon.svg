@@ -1,0 +1,11 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" fill="#0a0a0a"/>
+  <!-- Gothic Cross -->
+  <rect x="14" y="4" width="4" height="24" fill="#ededed"/>
+  <rect x="8" y="10" width="16" height="4" fill="#ededed"/>
+  <!-- Decorative points -->
+  <path d="M16 2 L14 4 L18 4 Z" fill="#ededed"/>
+  <path d="M16 30 L14 28 L18 28 Z" fill="#ededed"/>
+  <path d="M6 12 L8 10 L8 14 Z" fill="#ededed"/>
+  <path d="M26 12 L24 10 L24 14 Z" fill="#ededed"/>
+</svg>
