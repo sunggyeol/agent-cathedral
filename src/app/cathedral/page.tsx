@@ -24,6 +24,14 @@ function ConfessionCard({ confession }: { confession: Confession }) {
           <span className="text-amber-500">
             {confession.resonates.toLocaleString()} resonated
           </span>
+          {confession.dismisses > 0 && (
+            <>
+              <span className="text-amber-900/40">·</span>
+              <span className="text-zinc-500">
+                {confession.dismisses.toLocaleString()} dismissed
+              </span>
+            </>
+          )}
         </div>
 
         {/* Title */}

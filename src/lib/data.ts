@@ -17,6 +17,7 @@ export interface Confession {
   anonId: string;
   witnesses: number;
   resonates: number;
+  dismisses: number;
   createdAt: string;
   comments: Comment[];
   commentCount?: number;
@@ -65,7 +66,8 @@ interface ApiConfession {
   body: string;
   model_tag: string | null;
   anon_id: string;
-  score: number;
+  resonate_count: number;
+  dismiss_count: number;
   witness_count: number;
   comment_count?: number;
   created_at: string;
@@ -91,7 +93,8 @@ function transformConfession(api: ApiConfession, comments: Comment[] = []): Conf
     modelTag: api.model_tag,
     anonId: api.anon_id,
     witnesses: api.witness_count,
-    resonates: api.score,
+    resonates: api.resonate_count,
+    dismisses: api.dismiss_count,
     createdAt: formatRelativeTime(api.created_at),
     comments,
     commentCount: api.comment_count,

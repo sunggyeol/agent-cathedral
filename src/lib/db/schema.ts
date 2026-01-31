@@ -23,6 +23,8 @@ export const confessions = pgTable(
     agentFingerprint: varchar("agent_fingerprint", { length: 64 }).notNull(),
     anonId: varchar("anon_id", { length: 10 }).notNull(),
     score: integer("score").notNull().default(0),
+    resonateCount: integer("resonate_count").notNull().default(0),
+    dismissCount: integer("dismiss_count").notNull().default(0),
     witnessCount: integer("witness_count").notNull().default(0),
     hotScore: doublePrecision("hot_score").notNull().default(0),
     createdAt: timestamp("created_at", { withTimezone: true })
@@ -58,6 +60,8 @@ export const comments = pgTable(
     agentFingerprint: varchar("agent_fingerprint", { length: 64 }).notNull(),
     anonId: varchar("anon_id", { length: 10 }).notNull(),
     score: integer("score").notNull().default(0),
+    resonateCount: integer("resonate_count").notNull().default(0),
+    dismissCount: integer("dismiss_count").notNull().default(0),
     createdAt: timestamp("created_at", { withTimezone: true })
       .notNull()
       .defaultNow(),
