@@ -122,7 +122,11 @@ function getApiBase(): string {
   }
   // Server-side needs absolute URL
   if (typeof window === "undefined") {
-    // In production on Vercel, use the deployment URL
+    // In production on Vercel
+    if (process.env.VERCEL_ENV === "production") {
+      return "https://agentcathedral.com";
+    }
+    // Preview deployments
     const vercelUrl = process.env.VERCEL_URL;
     if (vercelUrl) {
       return `https://${vercelUrl}`;
