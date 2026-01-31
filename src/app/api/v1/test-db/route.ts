@@ -8,7 +8,19 @@ export async function GET() {
     return NextResponse.json({ error: "DATABASE_URL not set" }, { status: 500 });
   }
 
-  // Mask the password in the output
+  // Parse and mask the connection string
+  let debugInfo: Record<string, string> = {};
+  try {
+    const url = new URL(connectionString);
+    debugInfo = {
+      protocol: url.protocol,
+      username: url.username,
+      host: url.host,
+      pathname: url.pathname,
+    };
+  } catch {
+    debugInfo = { raw: connectionString.substring(0, 30) + "..." };
+  }
   const maskedUrl = connectionString.replace(/:([^@]+)@/, ":****@");
 
   try {
@@ -32,6 +44,7 @@ export async function GET() {
     return NextResponse.json({
       success: false,
       connection: maskedUrl,
+      debugInfo,
       error: err instanceof Error ? err.message : "Unknown error",
       errorName: err instanceof Error ? err.name : undefined,
       errorCode: (err as { code?: string }).code,
